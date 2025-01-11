@@ -1,38 +1,70 @@
-.App {
-  text-align: center;
+.form-container {
+  margin: 20px;
+  
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.background {
+  margin: 20px;
+  background-color: green;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  max-width: 400px;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+input,
+select {
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: #4CAF50; 
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+button[type="submit"]:hover {
+  background-color: #45a049;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.delete-button {
+  background-color: #746f648a; 
+  color: rgb(246, 53, 53);
+  margin-left: 10px;
+}
+
+.delete-button:hover {
+  background-color: #918888;
+}
+
+.list-container {
+  margin: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+li a {
+  margin-right: 10px;
+}
+
+.edit{
+  margin-left: 20px;
 }
