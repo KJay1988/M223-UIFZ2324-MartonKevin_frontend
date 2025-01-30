@@ -1,47 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import '../App.css'; 
+import { useNavigate } from 'react-router-dom';
 
+const List = () => {
+  const [volunteers, setVolunteers] = useState([]);
+  const navigate = useNavigate();
 
-  const List = () => {
-    const [volunteers, setVolunteers] = useState([]);
+  useEffect(() => {
+    const userRole = localStorage.getItem("role");
+    if (userRole !== "ADMIN") {
+      alert("Zugriff verweigert! Nur Admins dürfen die Helferliste sehen.");
+      navigate("/dashboard"); // Falls kein Admin, dann Dashboard anzeigen
+      return;
+    }
 
-    useEffect(() => {
-      const fetchData = async () => {
-        const result = await axios.get('http://localhost:8080/api/volunteers');
-        setVolunteers(result.data);
-      };
-      fetchData();
-    }, []);
-
-    const handleDelete = async (id) => {
+    const fetchData = async () => {
       try {
-        await axios.delete(`http://localhost:8080/api/volunteers/${id}`);
-        alert('Helfer erfolgreich entfernt');
-        // Aktualisieren Sie die Liste der Volunteers nach dem Löschen
-        setVolunteers(volunteers.filter(volunteer => volunteer.id !== id));
+        const token = localStorage.getItem("token");
+        const result = await axios.get('http://localhost:8080/api/volunteers', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setVolunteers(result.data);
       } catch (error) {
-        alert('Helfer konnte NICHT entfernt werden');
+        console.error("Fehler beim Abrufen der Helferliste", error);
       }
     };
+    fetchData();
+  }, [navigate]);
 
-    return (
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/volunteers/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
+      alert('Helfer erfolgreich entfernt');
+      setVolunteers(volunteers.filter(volunteer => volunteer.id !== id));
+    } catch (error) {
+      alert('Helfer konnte NICHT entfernt werden');
+    }
+  };
+
+  return (
       <div className="list-container">
         <h2>Helferliste</h2>
         <ul>
           {volunteers.map(volunteer => (
-            <li key={volunteer.id}>
-              {volunteer.vorname} {volunteer.name}
-              <p class="edit">
-                <Link to={`/edit/${volunteer.id}`}>Edit</Link>
-              </p>
-              <button className="delete-button" onClick={() => handleDelete(volunteer.id)}>Delete</button>
-            </li>
+              <li key={volunteer.id}>
+                {volunteer.vorname} {volunteer.name}
+                <button className="delete-button" onClick={() => handleDelete(volunteer.id)}>Löschen</button>
+              </li>
           ))}
         </ul>
       </div>
-    );
-  };
+  );
+};
 
 export default List;

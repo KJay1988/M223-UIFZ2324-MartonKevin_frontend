@@ -15,10 +15,29 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await Api.post("/auth/login", credentials);
-            localStorage.setItem("token", response.data.token); // Speichert das JWT
-            navigate("/dashboard"); // Nach erfolgreichem Login zur Dashboard-Seite
+
+            // Debugging: API-Antwort in der Konsole anzeigen
+            console.log("API Response:", response.data);
+
+            // Speichere das Token und die Rolle
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("role", response.data.role);
+
+            // Debugging: localStorage überprüfen
+            console.log("Gespeicherte Rolle:", localStorage.getItem("role"));
+
+            // Navigation basierend auf der Rolle
+            if (response.data.role === "ADMIN") {
+                console.log("ADMIN erkannt → Weiterleitung zur Helferliste");
+                navigate("/list");
+            } else {
+                console.log("Kein Admin → Weiterleitung zum Dashboard");
+                navigate("/dashboard");
+            }
+
         } catch (err) {
             setError("Login fehlgeschlagen! Überprüfe Benutzername & Passwort.");
+            console.error("Fehler beim Login:", err);
         }
     };
 
