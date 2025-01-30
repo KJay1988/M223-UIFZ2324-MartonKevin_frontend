@@ -6,6 +6,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import List from './components/List';
 import EditForm from './components/EditForm';
+import Ressort from './components/Ressort';
+import Deployment from './components/Deployment';
 
 
 const App = () => {
@@ -18,6 +20,9 @@ const App = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/list" element={<List />} />
                 <Route path="/edit/:id" element={<EditForm />} />
+                <Route path="/ressort" element={<Ressort />} />
+                <Route path="/deployment" element={<Deployment />} />
+
             </Routes>
         </Router>
     );
