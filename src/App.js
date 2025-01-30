@@ -5,6 +5,8 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import List from './components/List';
+import EditForm from './components/EditForm';
+
 
 const App = () => {
     return (
@@ -15,6 +17,7 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/list" element={<List />} />
+                <Route path="/edit/:id" element={<EditForm />} />
             </Routes>
         </Router>
     );
