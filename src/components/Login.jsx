@@ -24,19 +24,30 @@ const Login = () => {
 
             console.log("API Response:", response.data);
 
+            // ✅ Speichere Token, Rolle & Einsatzort
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("role", response.data.role);
+            localStorage.setItem("einsatzort", response.data.einsatzort || ""); // Falls kein Einsatzort gesetzt ist
 
-            console.log("Gespeicherte Rolle:", localStorage.getItem("role"));
+            console.log("Gespeicherte Rolle:", response.data.role);
+            console.log("Gespeicherter Einsatzort:", response.data.einsatzort);
 
             if (response.data.role === "ADMIN") {
                 setMessage({ type: "success", text: "Login erfolgreich! Weiterleitung zur Helferliste..." });
                 setTimeout(() => navigate("/list"), 2000);
             } else if (response.data.role === "OK") {
-                setMessage({ type: "success", text: "Login erfolgreich! Weiterleitung zu deinem Ressort..." });
-                setTimeout(() => navigate("/ressort"), 2000);
+                // ✅ Überprüfe den Einsatzort und leite zum passenden Ressort weiter
+                const einsatzort = response.data.einsatzort?.toLowerCase();
+                const allowedRessorts = ["bar", "chai", "hang", "infostand", "kasse"];
+
+                if (einsatzort && allowedRessorts.includes(einsatzort)) {
+                    setMessage({ type: "success", text: `Login erfolgreich! Weiterleitung zu Ressort ${einsatzort}...` });
+                    setTimeout(() => navigate(`/ressort/${einsatzort}`), 2000);
+                } else {
+                    setMessage({ type: "error", text: "Fehler: Ungültiger Einsatzort!" });
+                }
             } else {
-                setMessage({ type: "success", text: "Login erfolgreich! Weiterleitung zum Dashboard..." });
+                setMessage({ type: "success", text: "Login erfolgreich! Weiterleitung zur Einsatzansicht..." });
                 setTimeout(() => navigate("/deployment"), 2000);
             }
         } catch (err) {
@@ -44,6 +55,9 @@ const Login = () => {
             console.error("Fehler beim Login:", err);
         }
     };
+
+
+
 
     return (
         <div style={styles.container}>

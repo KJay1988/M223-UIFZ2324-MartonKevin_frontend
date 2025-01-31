@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import backgroundImage from "../assets/background_ressort.PNG"; // ✅ Hintergrundbild importieren
+import backgroundImage from "../assets/background_kasse.PNG"; // ✅ Hintergrundbild importieren
 
-const Ressort = () => {
+const Kasse = () => {
     const [volunteers, setVolunteers] = useState([]);
     const navigate = useNavigate();
 
@@ -22,8 +22,8 @@ const Ressort = () => {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
-                // ✅ Nur Helfer mit Einsatzort "Hang" anzeigen
-                const filteredVolunteers = result.data.filter(volunteer => volunteer.einsatzort === "Hang");
+                // ✅ Nur Helfer mit Einsatzort "Kasse" anzeigen
+                const filteredVolunteers = result.data.filter(volunteer => volunteer.einsatzort === "Kasse");
                 setVolunteers(filteredVolunteers);
             } catch (error) {
                 console.error("Fehler beim Abrufen der Ressort-Liste", error);
@@ -44,26 +44,12 @@ const Ressort = () => {
         }
     };
 
-    // ✅ Funktion zur Ermittlung der Farbe basierend auf der Rolle (1, 2, 3)
-    const getRoleColor = (roleId) => {
-        switch (roleId) {
-            case 1:
-                return "#8E44AD"; // Violett für ADMIN
-            case 2:
-                return "#F4A62A"; // Senfgelb für OK
-            case 3:
-                return "#27AE60"; // Grün für HELFER
-            default:
-                return "#27AE10";
-        }
-    };
-
     return (
         <div style={styles.container}>
-            <h2 style={styles.heading}>Helfer im Ressort Hang</h2>
+            <h2 style={styles.heading}>Helfer im Ressort Kasse</h2>
             <ul style={styles.list}>
                 {volunteers.map(volunteer => (
-                    <li key={volunteer.id} style={{ ...styles.listItem, borderLeft: `10px solid ${getRoleColor(volunteer.role.id)}` }}>
+                    <li key={volunteer.id} style={styles.listItem}>
                         <span style={styles.volunteerName}>{volunteer.vorname} {volunteer.name}</span>
                         <div style={styles.buttonContainer}>
                             <button style={styles.editButton} onClick={() => navigate(`/edit/${volunteer.id}`)}>✏️</button>
@@ -76,7 +62,7 @@ const Ressort = () => {
     );
 };
 
-// ✅ Stile für moderne, farbcodierte Helfer-Liste mit linksbündigem Layout
+/// ✅ Stile für moderne, farbcodierte Helfer-Liste mit linksbündigem Layout
 const styles = {
     container: {
         display: "flex",
@@ -147,5 +133,4 @@ const styles = {
 
 // ✅ Hover-Effekt für Delete-Button (Satt-Rot)
 styles.deleteButton[":hover"] = { backgroundColor: "#D32F2F" };
-
-export default Ressort;
+export default Kasse;

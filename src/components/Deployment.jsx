@@ -9,9 +9,9 @@ const Deployment = () => {
 
     useEffect(() => {
         const userRole = localStorage.getItem("role");
-        if (userRole !== "HELFER") {
+        if (userRole !== "HELFER" && userRole !== "SUPERHELFER") {
             alert("Zugriff verweigert! Diese Seite ist nur für Helfer.");
-            navigate("/dashboard");
+            navigate("/home");
             return;
         }
 

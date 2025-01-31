@@ -3,14 +3,16 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../assets/background_ressort.PNG"; // ✅ Hintergrundbild importieren
 
-const Ressort = () => {
+const Hang = () => {
     const [volunteers, setVolunteers] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         const userRole = localStorage.getItem("role");
-        if (userRole !== "OK") {
-            alert("Zugriff verweigert! Diese Seite ist nur für OK-Nutzer.");
+        const einsatzort = localStorage.getItem("einsatzort");
+
+        if (userRole !== "OK" || einsatzort !== "Hang") {
+            alert("Zugriff verweigert! Diese Seite ist nur für OK-Nutzer des Ressorts Hang.");
             navigate("/home");
             return;
         }
@@ -52,7 +54,7 @@ const Ressort = () => {
             case 2:
                 return "#F4A62A"; // Senfgelb für OK
             case 3:
-                return "#27AE60"; // Grün für HELFER
+                return "#40E0D0"; // Türkis für HELFER (angepasste Farbe)
             default:
                 return "#27AE10";
         }
@@ -148,4 +150,4 @@ const styles = {
 // ✅ Hover-Effekt für Delete-Button (Satt-Rot)
 styles.deleteButton[":hover"] = { backgroundColor: "#D32F2F" };
 
-export default Ressort;
+export default Hang;

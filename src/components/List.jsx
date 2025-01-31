@@ -49,6 +49,8 @@ const List = () => {
       case 2:
         return "#F4A62A"; // Senfgelb für OK
       case 3:
+        return "#00CED1"; // Türkies für SUPERHELFER
+      case 4:
         return "#27AE60"; // Grün für HELFER
       default:
         return "#27AE10"; // Standardfarbe

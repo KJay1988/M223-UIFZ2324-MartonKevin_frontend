@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import backgroundImage from "../assets/background_ressort.PNG"; // ✅ Hintergrundbild importieren
+import backgroundImage from "../assets/background_infostand.PNG"; // ✅ Hintergrundbild importieren
 
-const Ressort = () => {
+const Infostand = () => {
     const [volunteers, setVolunteers] = useState([]);
     const navigate = useNavigate();
 
@@ -22,8 +22,8 @@ const Ressort = () => {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
-                // ✅ Nur Helfer mit Einsatzort "Hang" anzeigen
-                const filteredVolunteers = result.data.filter(volunteer => volunteer.einsatzort === "Hang");
+                // ✅ Nur Helfer mit Einsatzort "Infostand" anzeigen
+                const filteredVolunteers = result.data.filter(volunteer => volunteer.einsatzort === "Infostand");
                 setVolunteers(filteredVolunteers);
             } catch (error) {
                 console.error("Fehler beim Abrufen der Ressort-Liste", error);
@@ -60,7 +60,7 @@ const Ressort = () => {
 
     return (
         <div style={styles.container}>
-            <h2 style={styles.heading}>Helfer im Ressort Hang</h2>
+            <h2 style={styles.heading}>Helfer im Ressort Infostand</h2>
             <ul style={styles.list}>
                 {volunteers.map(volunteer => (
                     <li key={volunteer.id} style={{ ...styles.listItem, borderLeft: `10px solid ${getRoleColor(volunteer.role.id)}` }}>
@@ -148,4 +148,4 @@ const styles = {
 // ✅ Hover-Effekt für Delete-Button (Satt-Rot)
 styles.deleteButton[":hover"] = { backgroundColor: "#D32F2F" };
 
-export default Ressort;
+export default Infostand;
